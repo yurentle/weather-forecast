@@ -1,0 +1,621 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body{
+    min-width: 360px;
+}
+
+html {
+    user-select: none;
+    font-size: 50px;
+    font-family: 'Source Han Serif', 'Open Sans', 'Helvetica Neue', 'Hiragino Sans GB', 'LiHei Pro', Arial, sans-serif;
+}
+
+[v-cloak] {
+    display: none !important;
+}
+
+#app {
+    width: 100%;
+}
+
+header {
+    text-align: center;
+    height: 280px;
+    height: 38vh;
+    background: #00BBD2;
+}
+
+
+/*右上角刷新相关*/
+
+.refresh {
+    position: fixed;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    top: 10px;
+    right: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('../images/refresh.svg');
+}
+
+.cityTitle {
+    color: #fff;
+}
+
+@media all and (min-width: 768px) and (max-width: 1023px) {
+    body {
+        background-color: #999;
+    }
+    header {
+        height: 50vh;
+    }
+    .cityTitle {
+        padding-top: .5rem;
+        font-size: 1.5rem;
+    }
+}
+
+@media all and (min-width: 1024px) {
+    html {
+        font-size: 30px;
+    }
+    header {
+        position: fixed;
+        width: 32%;
+        height: 100vh;
+    }
+    img.currentLocation{
+        height: 0.8rem;
+        left: 4rem;
+        top: 0.3rem;
+    }
+    .cityTitle {
+        padding: 3rem 0;
+        font-size: 2rem;
+    }
+}
+
+.main-describe {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.main-weather-pic {
+    width: 160px;
+    height: 160px;
+}
+
+.descbibe {
+    color: #fff;
+}
+
+.temperature {
+    font-size: 1rem;
+}
+
+.weathernote {
+    font-size: .5rem;
+    text-transform: uppercase;
+}
+
+@media all and (min-width: 1024px) {
+    .main-describe {
+        flex-direction: column;
+    }
+    .temperature {
+        font-size: 2rem;
+    }
+    .weathernote {
+        font-size: 1rem;
+    }
+}
+
+.items {
+    position: relative;
+    top: -20px;
+    top: -3vmax;
+    height: 40px;
+    height: 6vmax;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.item {
+    position: relative;
+    width: 50px;
+    width: 6vmax;
+    height: 50px;
+    height: 6vmax;
+    line-height: 50px;
+    line-height: 6vmax;
+    border-radius: 50%;
+    background-color: #07A4B5;
+}
+
+.item>.icon {
+    position: absolute;
+    top: -6px;
+    top: -1vmax;
+    right: -6px;
+    right: -1vmax;
+    width: 20px;
+    width: 3vmax;
+    height: 20px;
+    height: 3vmax;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #fff;
+}
+
+.humidity {
+    background-image: url('../images/water.svg');
+}
+
+.speed {
+    background-image: url('../images/wind.svg');
+}
+
+.all {
+    background-image: url('../images/clouds.svg');
+}
+
+.pressure {
+    background-image: url('../images/pressure.svg');
+}
+
+.note {
+    display: block;
+    text-align: center;
+    color: #fff;
+    height: inherit;
+    line-height: inherit;
+    font-size: .3rem;
+    font-size: 12px;
+}
+
+.timeabout {
+    width: 50px;
+    width: 7vmax;
+    height: 50px;
+    height: 7vmax;
+    border-radius: 50%;
+    background-color: #EEFF41;
+}
+
+.timeabout:hover {
+    cursor: pointer;
+}
+
+.calendar {
+    color: #743216;
+    vertical-align: middle;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../images/calendar.svg');
+}
+
+.clock {
+    color: #743216;
+    vertical-align: middle;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../images/clock.svg');
+}
+
+.calendar>i {
+    position: relative;
+    top: .2rem;
+}
+
+@media all and (min-width: 768px) {
+    .items {
+        justify-content: center;
+        transform: translateY(-30PX);
+    }
+    .item {
+        margin: 0 10px;
+    }
+}
+
+@media all and (min-width: 1024px) {
+    .items {
+        position: fixed;
+        height: 100vh;
+        left: 28%;
+        bottom: 100px;
+        flex-direction: column;
+        transform: translateY(20px);
+    }
+    .item>.icon {
+        left: -6px;
+        left: -1vmax;
+    }
+    .calendar>i {
+        font-size: .6rem;
+        top: .4rem;
+    }
+}
+
+.weather-item {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 60px;
+    height: 8vmax;
+    border-bottom: 1px solid rgba(236, 217, 217, 0.36);
+}
+
+.weather-item>img {
+    margin-left: 30px;
+}
+
+.weather-item-details {
+    flex: 1;
+}
+
+.weather-item-timeabout {
+    text-align: center;
+    flex: 2;
+}
+
+.weather-items .weather-item:last-child {
+    border-bottom: 1px solid #fff;
+}
+
+.weather-item-details,
+.weather-item-timeabout {
+    text-transform: uppercase;
+    font-size: .3rem;
+}
+
+.temp-high,
+.temp-low {
+    font-size: .2rem;
+    color: #333;
+}
+
+.weather-item-desc {
+    font-size: 14px;
+    color: #666;
+}
+
+
+/*周小时*/
+
+.week-title {
+    width: 98%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #EEFF41;
+    font-size: 16px;
+    font-size: .5rem;
+    color: #171717;
+    height: 40px;
+    height: 6vmax;
+    border-radius: 2px;
+}
+
+
+/*左上角按钮相关*/
+
+.fixedbutton {
+    position: fixed;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 187, 210, 0.8);
+    background-repeat: no-repeat;
+    background-position: center;
+    /*默认下是箭头图标等待 切换*/
+    background-image: url('../images/category.svg');
+}
+
+@media all and (min-width: 768px) and (max-width: 1023px) {
+    main {
+        background-color: #fff;
+        margin: -70px auto;
+        padding-top: 30px;
+        width: 90%;
+    }
+}
+
+@media all and (min-width: 1024px) {
+    main {
+        position: absolute;
+        z-index: -1;
+        width: 68%;
+        right: 0;
+    }
+    .week-title {
+        font-size: 1rem;
+    }
+    .fixedbutton {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+.arrow {
+    background-color: transparent;
+    background-image: url('../images/arrow.svg');
+}
+
+.fixedbutton:hover,
+.refresh:hover {
+    cursor: pointer;
+}
+
+.mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100vh;
+    transition: all .3s ease-in-out;
+}
+
+.mask:hover {
+    cursor: pointer;
+}
+
+.masked {
+    width: 100%;
+    background-color: rgba(0, 0, 0, .6);
+}
+
+
+/*侧边栏相关*/
+
+.slideBar {
+    position: fixed;
+    width: 80%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, .9);
+    transition: all .3s ease-in-out;
+}
+
+.slideBarMove {
+    left: -100%;
+}
+
+.imageContainer {
+    width: 100%;
+    height: 200px;
+    background-image: url('../images/mountain-2.svg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.storage {
+    display: flex;
+    font-size: .5rem;
+    flex-direction: column;
+}
+
+.storage:hover {
+    cursor: pointer;
+}
+
+.currentLocation{
+    height: 0.5rem;
+    vertical-align: bottom;
+    margin-left: 0.6rem;
+}
+.cities {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.addLocation,
+.settings,
+.city {
+    margin-left: .4rem;
+    padding: .2rem 0 .2rem 1rem;
+    border-bottom: 1px solid #efe3e3;
+    font-size: 0.4rem;
+    font-weight: 200;
+    color: #484444;
+    background-image: url('../images/unselected.svg');
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: .5rem;
+}
+
+/*只有该城市被点击才会拥有.selected*/
+p.selected {
+    background-image: url('../images/selected.svg');
+}
+
+.addLocation {
+    background-image: url('../images/plus.svg');
+}
+
+.settings {
+    background-image: url('../images/settings.svg');
+}
+
+@media all and (min-width: 768px) and (max-width: 1023px) {
+    .slideBar {
+        width: 50%;
+    }
+}
+
+@media all and (min-width: 1024px) {
+    .slideBar {
+        width: 32%;
+    }
+    .addLocation,
+    .settings,
+    .city {
+        font-size: .8rem;
+    }
+}
+
+
+/*搜索框相关*/
+
+.searchPosition {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: -120vh;
+    background-color: #00BBD2;
+    transition: all .3s ease-in-out;
+}
+
+.slideUp {
+    top: 0;
+}
+
+.searchBox {
+    text-align: center;
+}
+
+.searchBox>input {
+    width: 90%;
+    height: .8rem;
+    outline: none;
+    text-align: center;
+    color: #aaa;
+    font-size: .3rem;
+    border: none;
+    border-radius: 2px;
+}
+
+.cityCards {
+    position: relative;
+    text-align: center;
+    width: 90%;
+    max-height: 540px;
+    overflow-y: scroll;
+    margin: 20px auto 0;
+}
+
+.cityCard {
+    position: relative;
+    display: inline-block;
+    width: 90%;
+    margin: 20px 10px 0;
+    border-radius: 3px;
+}
+
+@media all and (min-width: 768px) and (max-width: 1023px) {
+    .cityCard {
+        width: 30%;
+    }
+}
+
+@media all and (min-width: 1024px) {
+    .searchBox>input {
+        height: 1.5rem;
+    }
+    .cityCard {
+        width: 20%;
+    }
+}
+
+.cityCard:nth-child(1) {
+    background-color: #f5be25;
+}
+
+.cityCard:nth-child(2) {
+    background-color: #f5f5f5;
+}
+
+.cityCard:nth-child(3) {
+    background-color: #0aa344;
+}
+
+.cityCard:nth-child(4) {
+    background-color: #565d80;
+}
+
+.cityCard:nth-child(5) {
+    background-color: #457ad1;
+}
+
+.cityCard:nth-child(6) {
+    background-color: #89929f;
+}
+
+.cityCard:nth-child(7) {
+    background-color: #f298de;
+}
+
+.cityCardTitle {
+    font-weight: 200;
+    font-size: .5rem;
+    padding: .2rem 0 .2rem .5rem;
+    color: #00bbd2;
+}
+
+
+/*城市名称卡片上的删除点标记*/
+
+.deleteDot {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #eeff41;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('../images/times.svg');
+}
+
+.backUp {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    height: 6vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('../images/up.svg');
+}
+
+
+/*含有阴影样式的类*/
+
+.boxshadow {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+.textshadow {
+    text-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+
+/*滚动条相关*/
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: #eeff41;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4b5cc4;
+}

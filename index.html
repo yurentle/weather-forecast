@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>天气应用</title>
+
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <!--刷新按钮-->
+            <div @click="refresh" class="refresh"></div>
+            <h4 class="cityTitle textshadow">{{ upperCaseHeader }}</h4>
+            <div class="main-describe">
+                <img class="main-weather-pic" :src=`http://openweathermap.org/img/w/${currentWeatherData.weather[0].icon}.png` alt="天气图片">
+                <div class="descbibe">
+                    <p v-cloak class="weathernote">{{ currentWeatherData.weather[0].description }}</p>
+                    <p v-cloak class="temperature">{{ currentWeatherData.main.temp }}℃</p>
+                </div>
+            </div>
+        </header>
+        <div class="items">
+            <div class="item boxshadow animated bounce">
+                <span v-cloak class="note">{{ currentWeatherData.main.humidity }}</span>
+                <div class="icon humidity">
+                </div>
+            </div>
+            <div class="item boxshadow animated bounce">
+                <span v-cloak class="note">{{ currentWeatherData.wind.speed }}</span>
+                <div class="icon speed"></div>
+            </div>
+            <div class="item boxshadow animated bounce">
+                <span v-cloak class="note">{{ currentWeatherData.clouds.all }}</span>
+                <div class="icon all"></div>
+            </div>
+            <div class="item boxshadow animated bounce">
+                <span v-cloak class="note">{{ currentWeatherData.main.pressure }}</span>
+                <div class="icon pressure"></div>
+            </div>
+            <div class="item boxshadow animated bounce timeabout" @click="changeTime">
+                <span v-if="isDaily" v-cloak class="note calendar"><i>{{ getWeek(currentWeatherData.dt).singleDate }}</i></span>
+                <span v-else class="note clock"></span>
+            </div>
+        </div>
+        <main>
+            <div v-if="isDaily" class="weather-items">
+                <div v-for="item in dailyWeatherData.list" class="weather-item">
+                    <img :src=`http://openweathermap.org/img/w/${item.weather[0].icon}.png` alt="天气图片">
+                    <div class="weather-item-details">
+                        <h3 v-cloak class="weather-item-desc">{{ item.weather[0].description }}</h3>
+                        <span v-cloak class="temp-high">{{ item.temp.max }}℃-</span>
+                        <span v-cloak class="temp-low">{{ item.temp.min }}℃</span>
+                    </div>
+                    <div class="weather-item-timeabout">
+                        <h3 v-cloak class="weather-item-desc">{{ getWeek(item.dt).weekName }}</h3>
+                        <time v-cloak>{{ getWeek(item.dt).date }}</time>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="weather-items">
+                <div v-for="items in hourlyWeatherData" class="container">
+                    <div class="week-title boxshadow">
+                        <span v-cloak>{{ getWeek(items.hourly[0].dt).weekName }}</span>
+                        <time v-cloak>{{ getWeek(items.hourly[0].dt).date }}</time>
+                    </div>
+                    <div v-for="item in items.hourly" class="weather-item">
+                        <img :src=`http://openweathermap.org/img/w/${item.weather[0].icon}.png` alt="天气图片">
+                        <div class="weather-item-details">
+                            <h3 v-cloak class="weather-item-desc">{{ item.weather[0].description }}</h3>
+                            <span v-cloak class="temp-high">{{ item.main.temp_max }}℃-</span>
+                            <span v-cloak class="temp-low">{{ item.main.temp_min }}℃</span>
+                        </div>
+                        <div class="weather-item-timeabout">
+                            <h3 v-cloak class="weather-item-desc">{{ getWeek(item.dt).weekName }}</h3>
+                            <time v-cloak>{{ getWeek(item.dt).presTime }}</time>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--mask被点击 此处与fixedbutton共用一个函数-->
+        <div @click="isMenu" class="mask" :class="{masked: showMenu}"></div>
+        <div class="slideBar" v-bind:class="{slideBarMove:!showMenu}">
+            <div class="imageContainer"></div>
+            <div class="storage">
+                <div class="cities stor">
+                    
+                    <p class="city" :class="{selected:city.isSelected}" v-for="(city,index) in cities" @click="selectCity(index)">
+                       {{ city.name }}
+                       <img src="images/location.svg" alt="" class="currentLocation" v-if="index===0">
+                    </p>
+                </div>
+                <!--添加地理位置 引出下拉框-->
+                <div @click="addlocation" class="addLocation stor">
+                    <p>添加城市</p>
+                </div>
+            </div>
+        </div>
+        <!-- 该按钮控制侧边栏的显示隐藏 此处与mask共用一个函数-->
+        <div @click="isMenu" class="fixedbutton boxshadow" :class="{arrow:showMenu}"></div>
+        <div class="searchPosition" :class="{slideUp:dropDown}">
+            <!--搜索框-->
+            <div class="searchBox">
+                <input class="boxshadow" @keyup.enter="addCity" v-model.trim="newCity" type="search" placeholder="输入城市名，如：南京">
+            </div>
+            <div class="cityCards">
+                <div v-cloak class="cityCard boxshadow" v-for="(card,index) in cities">
+                    <h5 v-cloak class="cityCardTitle">{{ card.name }}</h5>
+                    <div @click="deleteCity(index)" class="deleteDot boxshadow" v-if="index!==0"></div>
+                </div>
+            </div>
+            <!--返回按钮-->
+            <div @click="backUp" class="backUp"></div>
+        </div>
+    </div>
+    <script src="js/lodash.js"></script>
+    <script src="js/jsonp.js"></script>
+    <script src="js/pinyin.js"></script>
+    <script src="js/latlon-geohash.js"></script>
+    <script src="js/axios.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
