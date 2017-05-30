@@ -16,3 +16,6 @@
     - 城市列表在 Local Storage 里保存，每次打开页面时读取
 
 
+## 项目截图
+![预览gif](https://github.com/yurentle/weather-forecast/blob/master/images/screen.gif) 
+
